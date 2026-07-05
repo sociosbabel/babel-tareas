@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,6 +31,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .tab{font-size:12px;font-weight:500;padding:8px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);white-space:nowrap;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none}
 .tab.on{color:var(--text);border-bottom-color:var(--text)}
 .tab:hover{color:var(--text)}
+
+
+.search-wrap{padding:6px 20px;border-bottom:1px solid var(--border);}
+.search-input{width:100%;font-size:13px;padding:7px 12px 7px 32px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23A8A59F' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center;}
+.search-input:focus{outline:none;border-color:var(--text3);}
 
 /* ── FILTER ROW ── */
 .filter-row{display:flex;gap:5px;padding:8px 20px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;align-items:center}
@@ -128,6 +134,19 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .btn-add-cat{font-size:12px;padding:6px 10px;border:1px dashed var(--border);border-radius:8px;background:transparent;color:var(--text2);cursor:pointer;width:100%;margin-top:4px}
 .btn-add-cat:hover{background:var(--bg2)}
 .error-msg{font-size:11px;color:var(--red);margin-top:4px}
+
+.attach-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 4px;flex-shrink:0;opacity:0;transition:opacity .15s;margin-top:2px;line-height:1}
+.task-item:hover .attach-btn{opacity:1}
+.attach-link{font-size:11px;color:#0C447C;text-decoration:none;margin-top:4px;display:inline-flex;align-items:center;gap:3px;}
+.attach-link:hover{text-decoration:underline}
+.upload-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
+.upload-overlay.open{display:flex}
+.upload-box{background:var(--bg);border-radius:14px;padding:24px;width:min(340px,90vw);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.upload-box h3{font-size:15px;font-weight:600;margin-bottom:14px}
+.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;transition:border .15s}
+.upload-zone:hover{border-color:var(--green)}
+.upload-zone p{font-size:13px;color:var(--text2);margin-top:6px}
+.upload-progress{font-size:12px;color:var(--text2);margin-top:8px;display:none}
 </style>
 </head>
 <body>
@@ -151,7 +170,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 <!-- PANEL TAREAS -->
 <div id="panelTareas">
-  <div class="filter-row" id="filterRow"></div>
+  <div class="search-wrap" id="searchWrap" style="display:none">
+  <input class="search-input" id="searchInput" type="text" placeholder="Buscar tarea...">
+</div>
+<div class="filter-row" id="filterRow"></div>
   <div class="add-row">
     <input class="add-input" id="addInput" type="text" placeholder="Nueva tarea...">
     <select class="add-sel" id="addCatSel"></select>
@@ -249,7 +271,7 @@ const DEFAULT_CATS = [
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function today(){return new Date().toISOString().slice(0,10)}
 
-let tasks=[], cats=[], activeFilter='all', saving=false, lastSnapshot=null, editingId=null, activeTab='tareas';
+let tasks=[], cats=[], activeFilter='all', saving=false, lastSnapshot=null, editingId=null, activeTab='tareas', searchQuery='';
 
 // ── Firebase ───────────────────────────────────────────────────────────────
 async function saveData(desc){
@@ -326,7 +348,9 @@ function sortTasks(arr){
   });
 }
 function filteredTasks(){
+  const q=searchQuery.toLowerCase().trim();
   return tasks.filter(t=>{
+    if(q&&!t.text.toLowerCase().includes(q)&&!(t.notes||'').toLowerCase().includes(q))return false;
     if(t.done)return false;
     if(activeFilter==='all')return true;
     if(activeFilter==='g')return t.assign==='g';
@@ -549,6 +573,7 @@ document.querySelectorAll('.tab').forEach(tab=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
     tab.classList.add('on');
     document.getElementById('panelTareas').style.display=activeTab==='tareas'?'':'none';
+    document.getElementById('searchWrap').style.display=activeTab==='tareas'?'':'none';
     document.getElementById('panelEjecutadas').style.display=activeTab==='ejecutadas'?'':'none';
     document.getElementById('panelGantt').style.display=activeTab==='gantt'?'':'none';
     if(activeTab==='gantt')renderGantt();
@@ -566,6 +591,12 @@ addFechaInicio.value=today();
 addInmediata.addEventListener('change',()=>{
   labelFechaInicio.style.display=addInmediata.checked?'none':'';
   if(addInmediata.checked)labelFechaLimite.querySelector('label');
+});
+
+// ── Buscador ───────────────────────────────────────────────────────────────
+document.getElementById('searchInput').addEventListener('input',e=>{
+  searchQuery=e.target.value;
+  renderTasks();
 });
 
 document.getElementById('addBtn').addEventListener('click',()=>{
@@ -736,6 +767,76 @@ document.getElementById('saveCatsBtn').addEventListener('click',()=>{
   });
   if(!nc.length)return;cats=nc;saveData('categorías');closeCatModal();renderAll();
 });
+
+// ── Cloudinary Upload ──────────────────────────────────────────────────────
+const CLOUD_NAME = 'dmg4sk7k';
+const UPLOAD_PRESET = 'babel_uploads';
+let uploadingTask = null;
+
+function openUploadModal(task){
+  uploadingTask = task;
+  document.getElementById('uploadOverlay').classList.add('open');
+  document.getElementById('uploadProgress').style.display='none';
+  document.getElementById('uploadProgress').textContent='Subiendo...';
+}
+function closeUploadModal(){
+  document.getElementById('uploadOverlay').classList.remove('open');
+  uploadingTask = null;
+}
+
+document.getElementById('cancelUploadBtn').addEventListener('click', closeUploadModal);
+document.getElementById('uploadOverlay').addEventListener('click', e=>{
+  if(e.target===document.getElementById('uploadOverlay')) closeUploadModal();
+});
+
+document.getElementById('uploadZone').addEventListener('click', ()=>{
+  document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', async e=>{
+  const file = e.target.files[0];
+  if(!file || !uploadingTask) return;
+  const prog = document.getElementById('uploadProgress');
+  prog.style.display='block';
+  prog.textContent='Subiendo...';
+  try {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', UPLOAD_PRESET);
+    fd.append('folder', 'babel-tareas');
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {method:'POST', body:fd});
+    const data = await res.json();
+    if(data.secure_url){
+      uploadingTask.adjunto = {url: data.secure_url, name: file.name};
+      saveData('adjunto: ' + uploadingTask.text);
+      renderAll();
+      closeUploadModal();
+    } else {
+      prog.textContent = 'Error al subir. Intentá de nuevo.';
+    }
+  } catch(err) {
+    prog.textContent = 'Error de conexión.';
+    console.error(err);
+  }
+  e.target.value='';
+});
+
 </script>
+
+<div class="upload-overlay" id="uploadOverlay">
+  <div class="upload-box">
+    <h3>📎 Adjuntar archivo</h3>
+    <div class="upload-zone" id="uploadZone">
+      <div style="font-size:32px">📁</div>
+      <p>Tocá para elegir una foto o archivo</p>
+      <input type="file" id="fileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none" capture="environment">
+    </div>
+    <div class="upload-progress" id="uploadProgress">Subiendo...</div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+      <button class="btn-modal" id="cancelUploadBtn">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
