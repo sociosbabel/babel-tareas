@@ -643,7 +643,9 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   window._newAdjunto=null;
   document.getElementById('newAttachName').textContent='';
   document.getElementById('newAttachBtn').textContent='📎 Adjuntar archivo';
-  saveData('nueva tarea: '+txt); renderAll();
+  saveData('nueva tarea: '+txt);
+  sendWhatsAppAlert(`📋 *BABEL — Nueva tarea*\n\n• ${txt}\n\nAsignado: ${assign||'Sin asignar'}\nCategoría: ${cat}`);
+  renderAll();
 });
 document.getElementById('addInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('addBtn').click();});
 
@@ -683,6 +685,7 @@ document.getElementById('saveEditBtn').addEventListener('click',()=>{
   task.fechaInicio=inmediata?today():(document.getElementById('editFechaInicio').value||today());
   task.fechaLimite=fechaLimite;
   task.notes=document.getElementById('editNotes').value.trim();
+  sendWhatsAppAlert(`✏️ *BABEL — Tarea editada*\n\n• ${task.text}\n\nRevisá: babel-tareas-socios.netlify.app`);
   saveData('editada: '+task.text);
   document.getElementById('editModal').classList.remove('open');
   renderAll();
@@ -906,6 +909,34 @@ document.getElementById('fileInput').addEventListener('change', async e=>{
   }
   e.target.value='';
 });
+
+
+// ── Alertas WhatsApp via Wappfly ───────────────────────────────────────────
+const WAPPFLY_TOKEN = '0f0bca4166a29509d6fc1b10b072c1079a25c8dbcae47a85a69f014c3c731b17';
+const WAPPFLY_NUMBERS = ['56992191818']; // Agregar Vito después: '5491149937493'
+
+async function sendWhatsAppAlert(message){
+  for(const number of WAPPFLY_NUMBERS){
+    try{
+      await fetch('https://wappfly.com/api/send', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-API-TOKEN':WAPPFLY_TOKEN},
+        body:JSON.stringify({phone:number, message})
+      });
+    }catch(e){console.error('WhatsApp alert error:',e);}
+  }
+}
+
+// Revisar tareas vencidas cada hora
+function checkOverdueTasks(){
+  const today=new Date().toISOString().slice(0,10);
+  const overdue=tasks.filter(t=>!t.done&&t.fechaLimite&&t.fechaLimite<today);
+  if(overdue.length>0){
+    const lista=overdue.map(t=>`• ${t.text}`).join('\n');
+    sendWhatsAppAlert(`⚠️ *BABEL — Tareas Vencidas*\n\n${lista}\n\nRevisá: babel-tareas-socios.netlify.app`);
+  }
+}
+setInterval(checkOverdueTasks, 3600000); // cada hora
 
 </script>
 
