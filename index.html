@@ -170,7 +170,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 <!-- PANEL TAREAS -->
 <div id="panelTareas">
-  <div class="search-wrap" id="searchWrap" style="display:none">
+  <div class="search-wrap" id="searchWrap">
   <input class="search-input" id="searchInput" type="text" placeholder="Buscar tarea...">
 </div>
 <div class="filter-row" id="filterRow"></div>
@@ -221,6 +221,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <div class="modal-field" id="editFechaInicioWrap"><label>Fecha inicio</label><input type="date" id="editFechaInicio"></div>
     <div class="modal-field" id="editFechaLimiteWrap"><label>Fecha límite <span style="color:var(--text3)">(opcional si es inmediata)</span></label><input type="date" id="editFechaLimite"></div>
     <div class="modal-field"><label>Observaciones</label><textarea id="editNotes" rows="3"></textarea></div>
+    <div class="modal-field">
+      <label>Adjunto</label>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button type="button" class="btn-modal" id="editAttachBtn">📎 Elegir archivo</button>
+        <span id="editAttachName" style="font-size:12px;color:var(--text2)">Sin adjunto</span>
+      </div>
+      <input type="file" id="editFileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none" capture="environment">
+    </div>
     <div class="modal-actions">
       <button class="btn-modal" id="cancelEditBtn">Cancelar</button>
       <button class="btn-modal primary" id="saveEditBtn">Guardar</button>
@@ -431,6 +439,7 @@ function makeTaskLi(task, globalIdx, isDone=false){
       <span class="task-text">${task.text}</span>
       <div class="task-notes" contenteditable="${isDone?'false':'true'}">${task.notes||''}</div>
     </div>
+    <button class="icon-btn attach-btn" title="Adjuntar">📎</button>
     <button class="icon-btn edit-btn" title="Editar">✎</button>
     <button class="icon-btn del-btn" title="Eliminar">✕</button>
   `;
@@ -632,6 +641,9 @@ function openEditModal(task){
   document.getElementById('editFechaLimite').value=task.fechaLimite||'';
   document.getElementById('editNotes').value=task.notes||'';
   toggleEditDates();
+  // Mostrar adjunto actual
+  const attachName = document.getElementById('editAttachName');
+  attachName.textContent = task.adjunto ? task.adjunto.name : 'Sin adjunto';
   document.getElementById('editModal').classList.add('open');
   setTimeout(()=>document.getElementById('editText').focus(),100);
 }
@@ -766,6 +778,40 @@ document.getElementById('saveCatsBtn').addEventListener('click',()=>{
     nc.push({id,label,bg,text:(0.299*r+0.587*g+0.114*b)>160?'#1a1a1a':'#f5f5f5'});
   });
   if(!nc.length)return;cats=nc;saveData('categorías');closeCatModal();renderAll();
+});
+
+// ── Adjunto en modal edición ──────────────────────────────────────────────
+document.getElementById('editAttachBtn').addEventListener('click', ()=>{
+  document.getElementById('editFileInput').click();
+});
+document.getElementById('editFileInput').addEventListener('change', async e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const btn = document.getElementById('editAttachBtn');
+  const nameEl = document.getElementById('editAttachName');
+  btn.textContent = '⏳ Subiendo...';
+  btn.disabled = true;
+  try {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', 'babel_uploads');
+    fd.append('folder', 'babel-tareas');
+    const res = await fetch('https://api.cloudinary.com/v1_1/dmg4sk7k/auto/upload', {method:'POST', body:fd});
+    const data = await res.json();
+    if(data.secure_url){
+      const task = tasks.find(t=>t.id===editingId);
+      if(task) task.adjunto = {url: data.secure_url, name: file.name};
+      nameEl.textContent = file.name;
+      btn.textContent = '📎 Cambiar archivo';
+    } else {
+      nameEl.textContent = 'Error al subir';
+    }
+  } catch(err) {
+    nameEl.textContent = 'Error de conexión';
+  }
+  btn.disabled = false;
+  if(!btn.textContent.includes('Cambiar')) btn.textContent = '📎 Elegir archivo';
+  e.target.value='';
 });
 
 // ── Cloudinary Upload ──────────────────────────────────────────────────────
