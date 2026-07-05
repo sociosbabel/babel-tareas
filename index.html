@@ -170,8 +170,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 <!-- PANEL TAREAS -->
 <div id="panelTareas">
-  <div class="search-wrap" id="searchWrap">
+  <div class="search-wrap" id="searchWrap" style="position:relative">
   <input class="search-input" id="searchInput" type="text" placeholder="Buscar tarea...">
+  <button id="clearSearch" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text3);line-height:1">✕</button>
 </div>
 <div class="filter-row" id="filterRow"></div>
   <div class="add-row">
@@ -188,6 +189,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <label id="labelFechaInicio">Inicio: <input type="date" class="date-input" id="addFechaInicio"></label>
       <label id="labelFechaLimite">Límite: <input type="date" class="date-input" id="addFechaLimite"></label>
       <button class="btn-add" id="addBtn">+ Agregar</button>
+    </div>
+    <div class="add-dates" style="margin-top:4px">
+      <button type="button" class="btn-modal" id="newAttachBtn" style="font-size:11px;padding:4px 10px">📎 Adjuntar archivo</button>
+      <span id="newAttachName" style="font-size:11px;color:var(--text2)"></span>
+      <input type="file" id="newFileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none" capture="environment">
     </div>
   </div>
   <ul class="task-list" id="taskList"></ul>
@@ -605,7 +611,15 @@ addInmediata.addEventListener('change',()=>{
 // ── Buscador ───────────────────────────────────────────────────────────────
 document.getElementById('searchInput').addEventListener('input',e=>{
   searchQuery=e.target.value;
+  document.getElementById('clearSearch').style.display=searchQuery?'block':'none';
   renderTasks();
+});
+document.getElementById('clearSearch').addEventListener('click',()=>{
+  searchQuery='';
+  document.getElementById('searchInput').value='';
+  document.getElementById('clearSearch').style.display='none';
+  renderTasks();
+  document.getElementById('searchInput').focus();
 });
 
 document.getElementById('addBtn').addEventListener('click',()=>{
@@ -619,13 +633,16 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   }
   const cat=document.getElementById('addCatSel').value;
   const assign=document.getElementById('addAssignSel').value;
-  const newTask={id:uid(),text:txt,cat,assign,done:false,notes:'',inmediata,fechaInicio,fechaLimite};
+  const newTask={id:uid(),text:txt,cat,assign,done:false,notes:'',inmediata,fechaInicio,fechaLimite,adjunto:window._newAdjunto||null};
   tasks.push(newTask);
   document.getElementById('addInput').value='';
   addFechaLimite.value='';
   addInmediata.checked=false;
   labelFechaInicio.style.display='';
   addFechaInicio.value=today();
+  window._newAdjunto=null;
+  document.getElementById('newAttachName').textContent='';
+  document.getElementById('newAttachBtn').textContent='📎 Adjuntar archivo';
   saveData('nueva tarea: '+txt); renderAll();
 });
 document.getElementById('addInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('addBtn').click();});
@@ -778,6 +795,29 @@ document.getElementById('saveCatsBtn').addEventListener('click',()=>{
     nc.push({id,label,bg,text:(0.299*r+0.587*g+0.114*b)>160?'#1a1a1a':'#f5f5f5'});
   });
   if(!nc.length)return;cats=nc;saveData('categorías');closeCatModal();renderAll();
+});
+
+// ── Adjunto al crear tarea ────────────────────────────────────────────────
+document.getElementById('newAttachBtn').addEventListener('click',()=>{
+  document.getElementById('newFileInput').click();
+});
+document.getElementById('newFileInput').addEventListener('change', async e=>{
+  const file=e.target.files[0]; if(!file)return;
+  const btn=document.getElementById('newAttachBtn');
+  const nameEl=document.getElementById('newAttachName');
+  btn.textContent='⏳ Subiendo...'; btn.disabled=true;
+  try{
+    const fd=new FormData();
+    fd.append('file',file); fd.append('upload_preset','babel_uploads'); fd.append('folder','babel-tareas');
+    const res=await fetch('https://api.cloudinary.com/v1_1/dmg4sk7k/auto/upload',{method:'POST',body:fd});
+    const data=await res.json();
+    if(data.secure_url){
+      window._newAdjunto={url:data.secure_url,name:file.name};
+      nameEl.textContent=file.name;
+      btn.textContent='📎 Cambiar';
+    } else { nameEl.textContent='Error al subir'; btn.textContent='📎 Adjuntar archivo'; }
+  }catch(err){ nameEl.textContent='Error'; btn.textContent='📎 Adjuntar archivo'; }
+  btn.disabled=false; e.target.value='';
 });
 
 // ── Adjunto en modal edición ──────────────────────────────────────────────
