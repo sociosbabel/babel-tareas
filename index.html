@@ -15,9 +15,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
 
-/* ── HEADER ── */
 .header{background:var(--bg);border-bottom:1px solid var(--border);padding:12px 20px 0;position:sticky;top:0;z-index:20}
-.header-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.header-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .logo{font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;flex:1}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;transition:background .3s}
 .sync-dot.syncing{background:var(--orange)}.sync-dot.err{background:var(--red)}
@@ -25,44 +24,43 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .prog-bar{background:var(--border);border-radius:100px;height:2px;overflow:hidden;margin-bottom:3px}
 .prog-fill{background:var(--green);height:100%;border-radius:100px;transition:width .4s}
 .prog-label{font-size:11px;color:var(--text3);margin-bottom:8px}
-
-/* ── TABS ── */
 .tabs{display:flex;gap:0;border-bottom:1px solid var(--border)}
-.tab{font-size:12px;font-weight:500;padding:8px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);white-space:nowrap;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none}
+.tab{font-size:12px;font-weight:500;padding:8px 16px;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2);white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:all .15s}
 .tab.on{color:var(--text);border-bottom-color:var(--text)}
-.tab:hover{color:var(--text)}
 
+/* Search */
+.search-bar-wrap{padding:8px 20px;border-bottom:1px solid var(--border)}
+.search-inner{position:relative;width:260px;max-width:100%}
+.search-inner input{width:100%;font-size:13px;padding:6px 28px 6px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)}
+.search-inner input:focus{outline:none;border-color:var(--text3)}
+.search-clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:13px;color:var(--text3);display:none;line-height:1;padding:0}
 
-.search-wrap{padding:6px 20px;border-bottom:1px solid var(--border);}
-.search-input{width:100%;font-size:13px;padding:7px 12px 7px 32px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23A8A59F' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center;}
-.search-input:focus{outline:none;border-color:var(--text3);}
-
-/* ── FILTER ROW ── */
+/* Filters */
 .filter-row{display:flex;gap:5px;padding:8px 20px;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none;align-items:center}
 .filter-row::-webkit-scrollbar{display:none}
 .fbtn{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s}
 .fbtn.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 .sep{width:1px;height:16px;background:var(--border);flex-shrink:0;margin:0 2px}
 
-/* ── ADD ROW ── */
-.add-row{display:flex;gap:6px;padding:10px 20px;border-bottom:1px solid var(--border);align-items:flex-start;flex-wrap:wrap}
+/* Add row */
+.add-row{padding:10px 20px;border-bottom:1px solid var(--border)}
+.add-row-top{display:flex;gap:6px;margin-bottom:6px;flex-wrap:wrap}
 .add-input{flex:1;min-width:140px;font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)}
 .add-input:focus{outline:none;border-color:var(--text3)}
-.add-sel{font-size:12px;padding:7px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);cursor:pointer}
-.add-dates{display:flex;gap:6px;align-items:center;flex-wrap:wrap;width:100%}
-.add-dates label{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:4px}
-.date-input{font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);cursor:pointer}
-.date-input:focus{outline:none;border-color:var(--text3)}
-.inmediata-wrap{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);cursor:pointer}
+.add-sel{font-size:12px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);cursor:pointer}
+.add-row-bottom{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.inmediata-wrap{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text2);cursor:pointer}
 .inmediata-wrap input{accent-color:var(--orange);width:14px;height:14px;cursor:pointer}
-.btn-add{font-size:12px;padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--text);color:var(--bg);cursor:pointer;white-space:nowrap;font-weight:500}
+.date-label{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:4px}
+.date-input{font-size:12px;padding:5px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)}
+.date-input:focus{outline:none;border-color:var(--text3)}
+.btn-add{font-size:12px;padding:7px 14px;border-radius:8px;border:none;background:var(--text);color:var(--bg);cursor:pointer;font-weight:500;white-space:nowrap}
 .btn-add:hover{opacity:.85}
-.add-cats-btn{font-size:11px;padding:3px 10px;border-radius:20px;border:1px dashed var(--border);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap}
-.add-cats-btn:hover{background:var(--bg2)}
+.add-cats-btn{font-size:11px;padding:3px 10px;border-radius:20px;border:1px dashed var(--border);background:transparent;color:var(--text2);cursor:pointer}
 
-/* ── TASK LIST ── */
+/* Tasks */
 .task-list{list-style:none;padding:8px 20px 80px}
-.task-item{display:flex;align-items:flex-start;gap:9px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--bg);cursor:grab;user-select:none;transition:background .12s}
+.task-item{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:var(--bg);cursor:grab;user-select:none;transition:background .12s}
 .task-item:hover{background:var(--bg2)}
 .task-item.dragging{opacity:.3}
 .task-item.drag-over{border-color:var(--green);border-width:2px}
@@ -71,7 +69,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .task-item.overdue{border-left:3px solid var(--red)}
 .task-item.inmediata-item{border-left:3px solid var(--orange)}
 .handle{color:var(--text3);font-size:14px;cursor:grab;flex-shrink:0;margin-top:3px}
-.task-num{font-size:11px;color:var(--text3);width:20px;text-align:right;flex-shrink:0;margin-top:4px;font-variant-numeric:tabular-nums}
+.task-num{font-size:11px;color:var(--text3);width:20px;text-align:right;flex-shrink:0;margin-top:4px}
 .cb{width:15px;height:15px;cursor:pointer;flex-shrink:0;margin-top:3px;accent-color:var(--green)}
 .task-body{flex:1;min-width:0}
 .task-meta{display:flex;gap:5px;align-items:center;margin-bottom:4px;flex-wrap:wrap}
@@ -84,69 +82,60 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .inmediata-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;background:#FEF3DB;color:var(--orange);flex-shrink:0}
 .date-badge{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--bg2);color:var(--text2);flex-shrink:0}
 .date-badge.overdue{background:#FDEAEA;color:var(--red);font-weight:500}
+.adjunto-badge{font-size:10px;padding:2px 6px;border-radius:20px;background:#FEF3DB;color:#633806;font-weight:500;flex-shrink:0}
 .task-text{font-size:13px;line-height:1.45;color:var(--text)}
-.task-edit-input{font-size:13px;line-height:1.45;width:100%;border:1px solid #aaa;border-radius:6px;padding:3px 6px;background:var(--bg);color:var(--text);font-family:var(--font)}
-.task-edit-input:focus{outline:none}
-.task-notes{font-size:12px;color:var(--text2);margin-top:5px;line-height:1.4;cursor:text;min-height:18px;border-radius:4px;padding:2px 4px;margin-left:-4px;border:1px solid transparent;transition:border .15s}
+.task-notes{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.4;cursor:text;min-height:16px;border-radius:4px;padding:2px 4px;margin-left:-4px;border:1px solid transparent}
 .task-notes:empty::before{content:'Agregar observación...';color:var(--text3)}
 .task-notes:hover{border-color:var(--border)}
 .task-notes:focus{outline:none;border-color:var(--text3);background:var(--bg)}
-.icon-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0;opacity:0;transition:opacity .15s;margin-top:2px;line-height:1}
+.task-attach{display:block;margin-top:6px;text-decoration:none}
+.task-attach img{max-width:100%;max-height:100px;border-radius:6px;border:1px solid var(--border);display:block;margin-bottom:3px}
+.task-attach span{font-size:11px;color:#0C447C;font-weight:500}
+.icon-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:2px 4px;flex-shrink:0;opacity:0;transition:opacity .15s;margin-top:1px}
 .task-item:hover .icon-btn{opacity:1}
 .empty{text-align:center;color:var(--text3);font-size:13px;padding:2.5rem 0}
 
-/* ── GANTT ── */
+/* Done filters */
+.done-filters{display:flex;gap:6px;padding:8px 20px;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center}
+.done-filters span{font-size:11px;color:var(--text2)}
+
+/* Gantt */
 .gantt-wrap{padding:12px 20px 80px;overflow-x:auto}
-.gantt-header{display:flex;gap:0;margin-bottom:8px;position:sticky;left:0}
 .gantt-table{min-width:700px}
 .gantt-row{display:grid;grid-template-columns:220px 1fr;gap:8px;align-items:center;margin-bottom:6px;min-height:36px}
 .gantt-label{font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:8px}
 .gantt-label.overdue{color:var(--red)}
-.gantt-bar-wrap{position:relative;height:24px;background:var(--bg2);border-radius:6px;overflow:visible}
-.gantt-bar{position:absolute;height:100%;border-radius:6px;min-width:6px;transition:width .3s}
+.gantt-bar-wrap{position:relative;height:24px;background:var(--bg2);border-radius:6px}
+.gantt-bar{position:absolute;height:100%;border-radius:6px;min-width:6px}
 .gantt-bar.inmediata{background:var(--orange);opacity:.75}
 .gantt-bar.normal{background:var(--green);opacity:.7}
 .gantt-bar.overdue{background:var(--red);opacity:.8}
 .gantt-today{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--text);opacity:.3;z-index:2}
 .gantt-months{display:flex;border-bottom:1px solid var(--border);margin-bottom:8px;margin-left:228px}
 .gantt-month{font-size:10px;color:var(--text3);text-align:center;flex-shrink:0}
-.gantt-alert{font-size:11px;color:var(--red);margin-top:2px}
 
-/* ── MODAL ── */
+/* Modals */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;align-items:center;justify-content:center}
 .modal-bg.open{display:flex}
 .modal{background:var(--bg);border-radius:14px;padding:22px;width:min(420px,92vw);max-height:85vh;overflow-y:auto;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.12)}
 .modal h3{font-size:15px;font-weight:600;margin-bottom:14px}
-.modal-field{margin-bottom:12px}
-.modal-field label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px}
-.modal-field input[type=text],.modal-field input[type=date],.modal-field select,.modal-field textarea{width:100%;font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font)}
-.modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{outline:none;border-color:var(--text3)}
-.modal-field textarea{resize:vertical;min-height:60px}
-.modal-inmediata{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;margin-bottom:12px}
-.modal-inmediata input{accent-color:var(--orange);width:15px;height:15px;cursor:pointer}
-.modal-actions{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
-.btn-modal{font-size:13px;padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer}
-.btn-modal.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
-.btn-modal:hover{opacity:.85}
+.mfield{margin-bottom:12px}
+.mfield label{font-size:12px;color:var(--text2);display:block;margin-bottom:4px}
+.mfield input,.mfield select,.mfield textarea{width:100%;font-size:13px;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text);font-family:var(--font)}
+.mfield input:focus,.mfield select:focus,.mfield textarea:focus{outline:none;border-color:var(--text3)}
+.mfield textarea{resize:vertical;min-height:60px}
+.minmediata{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;margin-bottom:12px}
+.minmediata input{accent-color:var(--orange);width:15px;height:15px}
+.mactions{display:flex;gap:8px;margin-top:16px;justify-content:space-between;align-items:center}
+.mactions-right{display:flex;gap:8px}
+.btn-m{font-size:13px;padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);cursor:pointer}
+.btn-m.primary{background:var(--text);color:var(--bg);border-color:var(--text)}
+.btn-m.danger{color:var(--red);border-color:var(--red)}
+.btn-m:hover{opacity:.85}
 .cat-row-edit{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 .cat-row-edit input[type=text]{flex:1;font-size:13px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)}
-.cat-row-edit input[type=color]{width:30px;height:30px;padding:2px;border:1px solid var(--border);border-radius:6px;cursor:pointer;background:none}
+.cat-row-edit input[type=color]{width:30px;height:30px;padding:2px;border:1px solid var(--border);border-radius:6px;cursor:pointer}
 .btn-add-cat{font-size:12px;padding:6px 10px;border:1px dashed var(--border);border-radius:8px;background:transparent;color:var(--text2);cursor:pointer;width:100%;margin-top:4px}
-.btn-add-cat:hover{background:var(--bg2)}
-.error-msg{font-size:11px;color:var(--red);margin-top:4px}
-
-.attach-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:2px 4px;flex-shrink:0;opacity:0;transition:opacity .15s;margin-top:2px;line-height:1}
-.task-item:hover .attach-btn{opacity:1}
-.attach-link{font-size:11px;color:#0C447C;text-decoration:none;margin-top:4px;display:inline-flex;align-items:center;gap:3px;}
-.attach-link:hover{text-decoration:underline}
-.upload-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center}
-.upload-overlay.open{display:flex}
-.upload-box{background:var(--bg);border-radius:14px;padding:24px;width:min(340px,90vw);border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.15)}
-.upload-box h3{font-size:15px;font-weight:600;margin-bottom:14px}
-.upload-zone{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;cursor:pointer;margin-bottom:12px;transition:border .15s}
-.upload-zone:hover{border-color:var(--green)}
-.upload-zone p{font-size:13px;color:var(--text2);margin-top:6px}
-.upload-progress{font-size:12px;color:var(--text2);margin-top:8px;display:none}
 </style>
 </head>
 <body>
@@ -161,7 +150,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   </div>
   <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
   <div class="prog-label" id="progLabel">— / — completadas</div>
-  <div class="tabs" id="tabsRow">
+  <div class="tabs">
     <button class="tab on" data-tab="tareas">Tareas</button>
     <button class="tab" data-tab="ejecutadas">Ejecutadas</button>
     <button class="tab" data-tab="gantt">Carta Gantt</button>
@@ -170,30 +159,32 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 <!-- PANEL TAREAS -->
 <div id="panelTareas">
-  <div class="search-wrap" id="searchWrap" style="position:relative">
-  <input class="search-input" id="searchInput" type="text" placeholder="Buscar tarea...">
-  <button id="clearSearch" style="display:none;position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--text3);line-height:1">✕</button>
-</div>
-<div class="filter-row" id="filterRow"></div>
-  <div class="add-row">
-    <input class="add-input" id="addInput" type="text" placeholder="Nueva tarea...">
-    <select class="add-sel" id="addCatSel"></select>
-    <select class="add-sel" id="addAssignSel">
-      <option value="">Sin asignar</option>
-      <option value="g">Gonzalo</option>
-      <option value="v">Vito</option>
-      <option value="both">Ambos</option>
-    </select>
-    <div class="add-dates">
-      <label class="inmediata-wrap"><input type="checkbox" id="addInmediata"> Inmediata</label>
-      <label id="labelFechaInicio">Inicio: <input type="date" class="date-input" id="addFechaInicio"></label>
-      <label id="labelFechaLimite">Límite: <input type="date" class="date-input" id="addFechaLimite"></label>
-      <button class="btn-add" id="addBtn">+ Agregar</button>
+  <div class="search-bar-wrap">
+    <div class="search-inner">
+      <input type="text" id="searchInput" placeholder="Buscar tarea...">
+      <button class="search-clear" id="searchClear">✕</button>
     </div>
-    <div class="add-dates" style="margin-top:4px">
-      <button type="button" class="btn-modal" id="newAttachBtn" style="font-size:11px;padding:4px 10px">📎 Adjuntar archivo</button>
-      <span id="newAttachName" style="font-size:11px;color:var(--text2)"></span>
-      <input type="file" id="newFileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none" capture="environment">
+  </div>
+  <div class="filter-row" id="filterRow"></div>
+  <div class="add-row">
+    <div class="add-row-top">
+      <input class="add-input" id="addInput" type="text" placeholder="Nueva tarea...">
+      <select class="add-sel" id="addCatSel"></select>
+      <select class="add-sel" id="addAssignSel">
+        <option value="">Sin asignar</option>
+        <option value="g">Gonzalo</option>
+        <option value="v">Vito</option>
+        <option value="both">Ambos</option>
+      </select>
+    </div>
+    <div class="add-row-bottom">
+      <label class="inmediata-wrap"><input type="checkbox" id="addInmediata"> Inmediata</label>
+      <label class="date-label" id="labelInicio">Inicio: <input type="date" class="date-input" id="addFechaInicio"></label>
+      <label class="date-label">Límite: <input type="date" class="date-input" id="addFechaLimite"></label>
+      <button class="btn-add" id="addBtn">+ Agregar</button>
+      <button class="btn-m" id="addAttachBtn" style="font-size:11px;padding:4px 10px">📎 Adjuntar</button>
+      <span id="addAttachName" style="font-size:11px;color:var(--text2)"></span>
+      <input type="file" id="addFileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none">
     </div>
   </div>
   <ul class="task-list" id="taskList"></ul>
@@ -201,6 +192,25 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 
 <!-- PANEL EJECUTADAS -->
 <div id="panelEjecutadas" style="display:none">
+  <div class="done-filters">
+    <span>Filtrar:</span>
+    <select class="add-sel" id="doneFilterCat" style="font-size:11px;padding:3px 6px"></select>
+    <select class="add-sel" id="doneFilterAssign" style="font-size:11px;padding:3px 6px">
+      <option value="">Todos</option>
+      <option value="g">Gonzalo</option>
+      <option value="v">Vito</option>
+      <option value="both">Ambos</option>
+      <option value="none">Sin asignar</option>
+    </select>
+    <span style="margin-left:8px">Ordenar:</span>
+    <select class="add-sel" id="doneSortBy" style="font-size:11px;padding:3px 6px">
+      <option value="recent">Más recientes</option>
+      <option value="oldest">Más antiguas</option>
+      <option value="limit_asc">Fecha límite ↑</option>
+      <option value="limit_desc">Fecha límite ↓</option>
+      <option value="name">Nombre A-Z</option>
+    </select>
+  </div>
   <ul class="task-list" id="doneList"></ul>
 </div>
 
@@ -209,13 +219,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
   <div class="gantt-wrap" id="ganttWrap"></div>
 </div>
 
-<!-- MODAL EDITAR TAREA -->
+<!-- MODAL EDITAR -->
 <div class="modal-bg" id="editModal">
   <div class="modal">
     <h3>Editar tarea</h3>
-    <div class="modal-field"><label>Tarea</label><input type="text" id="editText"></div>
-    <div class="modal-field"><label>Categoría</label><select id="editCat"></select></div>
-    <div class="modal-field"><label>Asignado</label>
+    <div class="mfield"><label>Tarea</label><input type="text" id="editText"></div>
+    <div class="mfield"><label>Categoría</label><select id="editCat"></select></div>
+    <div class="mfield"><label>Asignado</label>
       <select id="editAssign">
         <option value="">Sin asignar</option>
         <option value="g">Gonzalo</option>
@@ -223,21 +233,25 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
         <option value="both">Ambos</option>
       </select>
     </div>
-    <label class="modal-inmediata"><input type="checkbox" id="editInmediata"> Inmediata</label>
-    <div class="modal-field" id="editFechaInicioWrap"><label>Fecha inicio</label><input type="date" id="editFechaInicio"></div>
-    <div class="modal-field" id="editFechaLimiteWrap"><label>Fecha límite <span style="color:var(--text3)">(opcional si es inmediata)</span></label><input type="date" id="editFechaLimite"></div>
-    <div class="modal-field"><label>Observaciones</label><textarea id="editNotes" rows="3"></textarea></div>
-    <div class="modal-field">
+    <label class="minmediata"><input type="checkbox" id="editInmediata"> Inmediata</label>
+    <div class="mfield" id="editInicioWrap"><label>Fecha inicio</label><input type="date" id="editFechaInicio"></div>
+    <div class="mfield"><label>Fecha límite <span style="color:var(--text3);font-size:11px">(opcional si es inmediata)</span></label><input type="date" id="editFechaLimite"></div>
+    <div class="mfield"><label>Observaciones</label><textarea id="editNotes" rows="3"></textarea></div>
+    <div class="mfield">
       <label>Adjunto</label>
-      <div style="display:flex;gap:8px;align-items:center">
-        <button type="button" class="btn-modal" id="editAttachBtn">📎 Elegir archivo</button>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button type="button" class="btn-m" id="editAttachBtn" style="font-size:11px;padding:4px 10px">📎 Elegir archivo</button>
         <span id="editAttachName" style="font-size:12px;color:var(--text2)">Sin adjunto</span>
+        <button type="button" id="editDelAdjunto" class="btn-m danger" style="font-size:11px;padding:4px 10px;display:none">✕ Quitar</button>
       </div>
-      <input type="file" id="editFileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none" capture="environment">
+      <input type="file" id="editFileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none">
     </div>
-    <div class="modal-actions">
-      <button class="btn-modal" id="cancelEditBtn">Cancelar</button>
-      <button class="btn-modal primary" id="saveEditBtn">Guardar</button>
+    <div class="mactions">
+      <button class="btn-m danger" id="deleteTaskBtn">Eliminar tarea</button>
+      <div class="mactions-right">
+        <button class="btn-m" id="cancelEditBtn">Cancelar</button>
+        <button class="btn-m primary" id="saveEditBtn">Guardar</button>
+      </div>
     </div>
   </div>
 </div>
@@ -248,9 +262,9 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
     <h3>Gestionar categorías</h3>
     <div id="catListEdit"></div>
     <button class="btn-add-cat" id="addCatRowBtn">+ Nueva categoría</button>
-    <div class="modal-actions">
-      <button class="btn-modal" id="cancelCatBtn">Cancelar</button>
-      <button class="btn-modal primary" id="saveCatsBtn">Guardar</button>
+    <div class="mactions" style="justify-content:flex-end">
+      <button class="btn-m" id="cancelCatBtn">Cancelar</button>
+      <button class="btn-m primary" id="saveCatsBtn">Guardar</button>
     </div>
   </div>
 </div>
@@ -273,6 +287,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const MAIN_DOC = doc(db, 'babel', 'tareas');
 const HISTORY_COL = collection(db, 'babel_historial');
+const CLOUD_NAME = 'dmg4sk7k';
+const UPLOAD_PRESET = 'babel_uploads';
 
 const DEFAULT_CATS = [
   {id:'ops',label:'Ops',bg:'#dceefb',text:'#0C447C'},
@@ -284,8 +300,10 @@ const DEFAULT_CATS = [
 
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function today(){return new Date().toISOString().slice(0,10)}
+function fmtDate(d){if(!d)return'';const[y,m,day]=d.split('-');return`${day}/${m}/${y.slice(2)}`}
 
 let tasks=[], cats=[], activeFilter='all', saving=false, lastSnapshot=null, editingId=null, activeTab='tareas', searchQuery='';
+let pendingAttach=null; // adjunto pendiente al crear tarea
 
 // ── Firebase ───────────────────────────────────────────────────────────────
 async function saveData(desc){
@@ -308,20 +326,17 @@ onSnapshot(MAIN_DOC,snap=>{
     saveData('carga inicial'); renderAll(); return;
   }
   const data=snap.data();
-  // Migrar tareas existentes: marcarlas como inmediatas si no tienen fechas
   let migrated=false;
   (data.tasks||[]).forEach(t=>{
-    if(t.inmediata===undefined && !t.fechaLimite){
-      t.inmediata=true; migrated=true;
-    }
-    if(!t.fechaInicio) t.fechaInicio=today();
+    if(t.inmediata===undefined&&!t.fechaLimite){t.inmediata=true;migrated=true;}
+    if(!t.fechaInicio)t.fechaInicio=today();
   });
   const incoming=JSON.stringify({tasks:data.tasks,cats:data.cats});
   if(incoming===lastSnapshot&&!migrated)return;
   tasks=data.tasks||[];
   cats=data.cats||DEFAULT_CATS;
   lastSnapshot=JSON.stringify({tasks,cats});
-  if(migrated) saveData('migración: marcadas como inmediatas');
+  if(migrated)saveData('migración');
   setSyncState('ok','sincronizado');
   renderAll();
 });
@@ -340,114 +355,139 @@ function assignInfo(a){
   return{label:'Ambos',cls:'assign-both'};
 }
 function nextAssign(a){
-  if(!a||a==='')return 'g';
-  if(a==='g')return 'v';
-  if(a==='v')return 'both';
-  return '';
+  if(!a||a==='')return'g';
+  if(a==='g')return'v';
+  if(a==='v')return'both';
+  return'';
 }
-function isOverdue(t){
-  if(!t.fechaLimite||t.done)return false;
-  return t.fechaLimite<today();
-}
+function isOverdue(t){return t.fechaLimite&&!t.done&&t.fechaLimite<today();}
+function isImg(name){return name&&/\.(jpg|jpeg|png|gif|webp|heic|avif)$/i.test(name);}
+
 function sortTasks(arr){
   return [...arr].sort((a,b)=>{
-    // Inmediatas primero (respetan orden manual via index)
-    if(a.inmediata&&!b.inmediata)return -1;
+    if(a.inmediata&&!b.inmediata)return-1;
     if(!a.inmediata&&b.inmediata)return 1;
-    // Ambas con fecha: por fecha límite
     if(a.fechaLimite&&b.fechaLimite)return a.fechaLimite.localeCompare(b.fechaLimite);
-    if(a.fechaLimite&&!b.fechaLimite)return -1;
+    if(a.fechaLimite&&!b.fechaLimite)return-1;
     if(!a.fechaLimite&&b.fechaLimite)return 1;
     return 0;
   });
 }
+
 function filteredTasks(){
   const q=searchQuery.toLowerCase().trim();
   return tasks.filter(t=>{
-    if(q&&!t.text.toLowerCase().includes(q)&&!(t.notes||'').toLowerCase().includes(q))return false;
     if(t.done)return false;
+    if(q&&!t.text.toLowerCase().includes(q)&&!(t.notes||'').toLowerCase().includes(q))return false;
     if(activeFilter==='all')return true;
+    if(activeFilter==='overdue')return isOverdue(t);
     if(activeFilter==='g')return t.assign==='g';
     if(activeFilter==='v')return t.assign==='v';
     if(activeFilter==='both')return t.assign==='both';
-    if(activeFilter==='none')return !t.assign||t.assign==='';
-    if(activeFilter==='overdue')return isOverdue(t);
+    if(activeFilter==='none')return!t.assign||t.assign==='';
     if(activeFilter.startsWith('cat_'))return t.cat===activeFilter.slice(4);
     return true;
   });
 }
 
+// ── Cloudinary Upload ──────────────────────────────────────────────────────
+async function uploadFile(file, onSuccess, onError, btnEl, nameEl){
+  if(btnEl)btnEl.textContent='⏳ Subiendo...';
+  try{
+    const fd=new FormData();
+    fd.append('file',file);
+    fd.append('upload_preset',UPLOAD_PRESET);
+    fd.append('folder','babel-tareas');
+    const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{method:'POST',body:fd});
+    const data=await res.json();
+    if(data.secure_url){
+      onSuccess({url:data.secure_url,name:file.name});
+    } else {
+      if(onError)onError();
+      if(nameEl)nameEl.textContent='Error al subir';
+    }
+  }catch(e){
+    if(onError)onError();
+    if(nameEl)nameEl.textContent='Error de conexión';
+    console.error(e);
+  }
+  if(btnEl)btnEl.textContent='📎 Adjuntar';
+}
+
 // ── Render ─────────────────────────────────────────────────────────────────
 function renderFilters(){
-  const row=document.getElementById('filterRow'); row.innerHTML='';
+  const row=document.getElementById('filterRow');row.innerHTML='';
   const overdueCount=tasks.filter(t=>!t.done&&isOverdue(t)).length;
-  const filters=[
-    {id:'all',label:'Todas'},
-    {id:'overdue',label:`Vencidas${overdueCount?` (${overdueCount})`:''}`,red:!!overdueCount},
-  ];
-  filters.forEach(f=>{
+  [{id:'all',label:'Todas'},{id:'overdue',label:`Vencidas${overdueCount?` (${overdueCount})`:''}`}].forEach(f=>{
     const b=document.createElement('button');
     b.className='fbtn'+(activeFilter===f.id?' on':'');
     b.textContent=f.label;
-    if(f.red&&activeFilter!==f.id)b.style.color='var(--red)';
-    b.addEventListener('click',()=>{activeFilter=f.id;renderAll();}); row.appendChild(b);
+    if(f.id==='overdue'&&overdueCount&&activeFilter!==f.id)b.style.color='var(--red)';
+    b.onclick=()=>{activeFilter=f.id;renderTasks();renderFilters();};
+    row.appendChild(b);
   });
   const s1=document.createElement('div');s1.className='sep';row.appendChild(s1);
   [{id:'g',label:'Gonzalo'},{id:'v',label:'Vito'},{id:'both',label:'Ambos'},{id:'none',label:'Sin asignar'}].forEach(f=>{
     const b=document.createElement('button');
     b.className='fbtn'+(activeFilter===f.id?' on':'');
     b.textContent=f.label;
-    b.addEventListener('click',()=>{activeFilter=f.id;renderAll();}); row.appendChild(b);
+    b.onclick=()=>{activeFilter=f.id;renderTasks();renderFilters();};
+    row.appendChild(b);
   });
   const s2=document.createElement('div');s2.className='sep';row.appendChild(s2);
   cats.forEach(c=>{
     const b=document.createElement('button');
     b.className='fbtn'+(activeFilter==='cat_'+c.id?' on':'');
     b.textContent=c.label;
-    b.addEventListener('click',()=>{activeFilter='cat_'+c.id;renderAll();}); row.appendChild(b);
+    b.onclick=()=>{activeFilter='cat_'+c.id;renderTasks();renderFilters();};
+    row.appendChild(b);
   });
 }
 
-function renderCatSelect(){
+function renderCatSelects(){
   const opts=cats.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
   document.getElementById('addCatSel').innerHTML=opts;
   document.getElementById('editCat').innerHTML=opts;
+  const doneCat=document.getElementById('doneFilterCat');
+  doneCat.innerHTML='<option value="">Todas las categorías</option>'+opts;
 }
 
-function makeTaskLi(task, globalIdx, isDone=false){
+function makeTaskEl(task, idx, isDone){
   const c=catById(task.cat);
-  const {label:alabel,cls:acls}=assignInfo(task.assign);
+  const {label:al,cls:ac}=assignInfo(task.assign);
   const overdue=isOverdue(task);
   const li=document.createElement('li');
   li.className='task-item'+(isDone?' done':'')+(overdue?' overdue':'')+(task.inmediata&&!isDone?' inmediata-item':'');
   li.draggable=!isDone;
   li.dataset.id=task.id;
 
+  // date badge
   let dateBadge='';
-  if(task.inmediata&&!task.fechaLimite){
-    dateBadge=`<span class="inmediata-badge">⚡ Inmediata</span>`;
-  } else if(task.inmediata&&task.fechaLimite){
-    dateBadge=`<span class="inmediata-badge">⚡ Inmediata</span><span class="date-badge${overdue?' overdue':''}">Límite: ${fmtDate(task.fechaLimite)}</span>`;
-  } else if(task.fechaLimite){
-    dateBadge=`<span class="date-badge${overdue?' overdue':''}">Límite: ${fmtDate(task.fechaLimite)}</span>`;
-  }
+  if(task.inmediata&&!task.fechaLimite)dateBadge=`<span class="inmediata-badge">⚡ Inmediata</span>`;
+  else if(task.inmediata&&task.fechaLimite)dateBadge=`<span class="inmediata-badge">⚡ Inmediata</span><span class="date-badge${overdue?' overdue':''}">Límite: ${fmtDate(task.fechaLimite)}</span>`;
+  else if(task.fechaLimite)dateBadge=`<span class="date-badge${overdue?' overdue':''}">Límite: ${fmtDate(task.fechaLimite)}</span>`;
+
+  const adjBadge=task.adjunto?'<span class="adjunto-badge">📎</span>':'';
 
   li.innerHTML=`
     <span class="handle">⠿</span>
-    <span class="task-num">${globalIdx+1}</span>
+    <span class="task-num">${idx+1}</span>
     <input type="checkbox" class="cb" ${isDone?'checked':''}>
     <div class="task-body">
       <div class="task-meta">
+        ${adjBadge}
         <span class="cat-badge" style="background:${c.bg};color:${c.text}">${c.label}</span>
-        <span class="assign-badge ${acls}">${alabel}</span>
+        <span class="assign-badge ${ac}">${al}</span>
         ${dateBadge}
       </div>
       <span class="task-text">${task.text}</span>
       <div class="task-notes" contenteditable="${isDone?'false':'true'}">${task.notes||''}</div>
+      ${task.adjunto?`<a class="task-attach" href="${task.adjunto.url}" target="_blank">
+        ${isImg(task.adjunto.name)?`<img src="${task.adjunto.url}" alt="${task.adjunto.name}">`:''}
+        <span>📎 ${task.adjunto.name}</span>
+      </a>`:''}
     </div>
-    <button class="icon-btn attach-btn" title="Adjuntar">📎</button>
     <button class="icon-btn edit-btn" title="Editar">✎</button>
-    <button class="icon-btn del-btn" title="Eliminar">✕</button>
   `;
 
   li.querySelector('.cb').addEventListener('change',e=>{
@@ -458,23 +498,23 @@ function makeTaskLi(task, globalIdx, isDone=false){
   li.querySelector('.cat-badge').addEventListener('click',()=>{
     const idx=cats.findIndex(c=>c.id===task.cat);
     task.cat=cats[(idx+1)%cats.length].id;
-    saveData('categoría: '+task.text); renderAll();
+    saveData('categoría: '+task.text);renderAll();
   });
   li.querySelector('.assign-badge').addEventListener('click',()=>{
     task.assign=nextAssign(task.assign);
-    saveData('asignación: '+task.text); renderAll();
+    saveData('asignación: '+task.text);renderAll();
   });
-  li.querySelector('.edit-btn').addEventListener('click',e=>{e.stopPropagation();openEditModal(task);});
-  li.querySelector('.del-btn').addEventListener('click',()=>{
-    tasks=tasks.filter(t=>t.id!==task.id);
-    saveData('eliminada: '+task.text); renderAll();
+  li.querySelector('.edit-btn').addEventListener('click',e=>{
+    e.stopPropagation();openEditModal(task);
   });
+
   if(!isDone){
-    li.querySelector('.task-notes').addEventListener('blur',e=>{
+    const notesEl=li.querySelector('.task-notes');
+    notesEl.addEventListener('blur',e=>{
       const val=e.target.innerText.trim();
       if(val!==task.notes){task.notes=val;saveData('observación: '+task.text);}
     });
-    li.querySelector('.task-notes').addEventListener('keydown',e=>{
+    notesEl.addEventListener('keydown',e=>{
       if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();e.target.blur();}
     });
     addDragEvents(li,task);
@@ -488,86 +528,69 @@ function renderTasks(){
   const vis=sortTasks(filteredTasks());
   list.innerHTML='';
   if(!vis.length){list.innerHTML='<li class="empty">Sin tareas en esta vista.</li>';updateProgress();return;}
-  vis.forEach((task,i)=>{list.appendChild(makeTaskLi(task,i,false));});
+  vis.forEach((t,i)=>list.appendChild(makeTaskEl(t,i,false)));
   updateProgress();
 }
 
 function renderDone(){
   const list=document.getElementById('doneList');
-  const done=tasks.filter(t=>t.done);
+  const catF=document.getElementById('doneFilterCat').value;
+  const assignF=document.getElementById('doneFilterAssign').value;
+  const sort=document.getElementById('doneSortBy').value;
+  let done=tasks.filter(t=>t.done);
+  if(catF)done=done.filter(t=>t.cat===catF);
+  if(assignF==='none')done=done.filter(t=>!t.assign||t.assign==='');
+  else if(assignF)done=done.filter(t=>t.assign===assignF);
+  if(sort==='limit_asc')done.sort((a,b)=>(a.fechaLimite||'').localeCompare(b.fechaLimite||''));
+  else if(sort==='limit_desc')done.sort((a,b)=>(b.fechaLimite||'').localeCompare(a.fechaLimite||''));
+  else if(sort==='name')done.sort((a,b)=>a.text.localeCompare(b.text));
+  else if(sort==='oldest')done.reverse();
   list.innerHTML='';
-  if(!done.length){list.innerHTML='<li class="empty">No hay tareas ejecutadas aún.</li>';return;}
-  done.forEach((task,i)=>{list.appendChild(makeTaskLi(task,i,true));});
+  if(!done.length){list.innerHTML='<li class="empty">No hay tareas ejecutadas con estos filtros.</li>';return;}
+  done.forEach((t,i)=>list.appendChild(makeTaskEl(t,i,true)));
 }
 
 function renderGantt(){
   const wrap=document.getElementById('ganttWrap');
   const active=tasks.filter(t=>!t.done);
   if(!active.length){wrap.innerHTML='<p class="empty">Sin tareas para mostrar.</p>';return;}
-
-  // Calcular rango de fechas
   const todayStr=today();
-  let minDate=todayStr, maxDate=todayStr;
+  let minDate=todayStr,maxDate=todayStr;
   active.forEach(t=>{
     if(t.fechaInicio&&t.fechaInicio<minDate)minDate=t.fechaInicio;
     if(t.fechaLimite&&t.fechaLimite>maxDate)maxDate=t.fechaLimite;
   });
-  // Extender rango un poco
-  const minD=new Date(minDate); minD.setDate(minD.getDate()-3);
-  const maxD=new Date(maxDate); maxD.setDate(maxD.getDate()+7);
+  const minD=new Date(minDate);minD.setDate(minD.getDate()-3);
+  const maxD=new Date(maxDate);maxD.setDate(maxD.getDate()+7);
   const totalDays=Math.max((maxD-minD)/86400000,30);
-
-  function pct(dateStr){
-    if(!dateStr)return 0;
-    const d=new Date(dateStr);
-    return Math.max(0,Math.min(100,((d-minD)/86400000)/totalDays*100));
-  }
-
-  // Cabecera de meses
+  function pct(d){if(!d)return 0;return Math.max(0,Math.min(100,((new Date(d)-minD)/86400000)/totalDays*100));}
+  const todayPct=pct(todayStr);
   let monthsHtml='';
   const cur=new Date(minD);
   while(cur<=maxD){
-    const daysInView=Math.min((new Date(cur.getFullYear(),cur.getMonth()+1,1)-cur)/86400000, (maxD-cur)/86400000+1);
+    const daysInView=Math.min((new Date(cur.getFullYear(),cur.getMonth()+1,1)-cur)/86400000,(maxD-cur)/86400000+1);
     const w=(daysInView/totalDays*100).toFixed(1);
-    const label=cur.toLocaleDateString('es',{month:'short',year:'2-digit'});
-    monthsHtml+=`<div class="gantt-month" style="width:${w}%">${label}</div>`;
-    cur.setMonth(cur.getMonth()+1); cur.setDate(1);
+    monthsHtml+=`<div class="gantt-month" style="width:${w}%">${cur.toLocaleDateString('es',{month:'short',year:'2-digit'})}</div>`;
+    cur.setMonth(cur.getMonth()+1);cur.setDate(1);
   }
-
-  const todayPct=pct(todayStr);
   const sorted=sortTasks(active);
-
   let rowsHtml='';
   sorted.forEach(task=>{
     const overdue=isOverdue(task);
-    const startPct=task.inmediata&&!task.fechaInicio?pct(todayStr):pct(task.fechaInicio||todayStr);
-    const endPct=task.fechaLimite?pct(task.fechaLimite):startPct+2;
-    const barClass=task.inmediata&&!task.fechaLimite?'inmediata':overdue?'overdue':'normal';
-    const alertHtml=overdue?`<div class="gantt-alert">⚠ Vencida el ${fmtDate(task.fechaLimite)}</div>`:'';
-    rowsHtml+=`
-      <div class="gantt-row">
-        <div class="gantt-label${overdue?' overdue':''}" title="${task.text}">${task.inmediata?'⚡ ':''}${task.text}</div>
-        <div class="gantt-bar-wrap">
-          <div class="gantt-today" style="left:${todayPct}%"></div>
-          <div class="gantt-bar ${barClass}" style="left:${startPct}%;width:${Math.max(endPct-startPct,2)}%"></div>
-          ${alertHtml}
-        </div>
-      </div>`;
+    const sp=task.inmediata&&!task.fechaInicio?pct(todayStr):pct(task.fechaInicio||todayStr);
+    const ep=task.fechaLimite?pct(task.fechaLimite):sp+2;
+    const bc=task.inmediata&&!task.fechaLimite?'inmediata':overdue?'overdue':'normal';
+    rowsHtml+=`<div class="gantt-row">
+      <div class="gantt-label${overdue?' overdue':''}" title="${task.text}">${task.inmediata?'⚡ ':''}${task.text}</div>
+      <div class="gantt-bar-wrap">
+        <div class="gantt-today" style="left:${todayPct}%"></div>
+        <div class="gantt-bar ${bc}" style="left:${sp}%;width:${Math.max(ep-sp,2)}%"></div>
+        ${overdue?`<div style="font-size:10px;color:var(--red);margin-top:2px">⚠ Vencida el ${fmtDate(task.fechaLimite)}</div>`:''}
+      </div>
+    </div>`;
   });
-
-  wrap.innerHTML=`
-    <div class="gantt-table">
-      <div class="gantt-months">${monthsHtml}</div>
-      ${rowsHtml}
-    </div>
-    <p style="font-size:11px;color:var(--text3);margin-top:12px">La línea vertical oscura indica hoy. Naranja = Inmediata · Verde = Con fecha · Rojo = Vencida</p>
-  `;
-}
-
-function fmtDate(d){
-  if(!d)return'';
-  const [y,m,day]=d.split('-');
-  return `${day}/${m}/${y.slice(2)}`;
+  wrap.innerHTML=`<div class="gantt-table"><div class="gantt-months">${monthsHtml}</div>${rowsHtml}</div>
+  <p style="font-size:11px;color:var(--text3);margin-top:12px">Línea vertical = hoy · Naranja = Inmediata · Verde = Con fecha · Rojo = Vencida</p>`;
 }
 
 function updateProgress(){
@@ -577,9 +600,7 @@ function updateProgress(){
   document.getElementById('progLabel').textContent=`${done} / ${total} completadas`;
 }
 
-function renderAll(){
-  renderFilters(); renderCatSelect(); renderTasks(); renderDone(); renderGantt();
-}
+function renderAll(){renderFilters();renderCatSelects();renderTasks();renderDone();renderGantt();}
 
 // ── Tabs ───────────────────────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(tab=>{
@@ -588,66 +609,77 @@ document.querySelectorAll('.tab').forEach(tab=>{
     document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
     tab.classList.add('on');
     document.getElementById('panelTareas').style.display=activeTab==='tareas'?'':'none';
-    document.getElementById('searchWrap').style.display=activeTab==='tareas'?'':'none';
     document.getElementById('panelEjecutadas').style.display=activeTab==='ejecutadas'?'':'none';
     document.getElementById('panelGantt').style.display=activeTab==='gantt'?'':'none';
-    if(activeTab==='gantt')renderGantt();
   });
 });
 
-// ── Agregar tarea ──────────────────────────────────────────────────────────
-const addInmediata=document.getElementById('addInmediata');
-const labelFechaInicio=document.getElementById('labelFechaInicio');
-const labelFechaLimite=document.getElementById('labelFechaLimite');
-const addFechaInicio=document.getElementById('addFechaInicio');
-const addFechaLimite=document.getElementById('addFechaLimite');
-
-addFechaInicio.value=today();
-addInmediata.addEventListener('change',()=>{
-  labelFechaInicio.style.display=addInmediata.checked?'none':'';
-  if(addInmediata.checked)labelFechaLimite.querySelector('label');
-});
-
 // ── Buscador ───────────────────────────────────────────────────────────────
-document.getElementById('searchInput').addEventListener('input',e=>{
+const searchInput=document.getElementById('searchInput');
+const searchClear=document.getElementById('searchClear');
+searchInput.addEventListener('input',e=>{
   searchQuery=e.target.value;
-  document.getElementById('clearSearch').style.display=searchQuery?'block':'none';
+  searchClear.style.display=searchQuery?'block':'none';
   renderTasks();
 });
-document.getElementById('clearSearch').addEventListener('click',()=>{
-  searchQuery='';
-  document.getElementById('searchInput').value='';
-  document.getElementById('clearSearch').style.display='none';
-  renderTasks();
-  document.getElementById('searchInput').focus();
+searchClear.addEventListener('click',()=>{
+  searchQuery='';searchInput.value='';
+  searchClear.style.display='none';
+  searchInput.focus();renderTasks();
 });
 
+// ── Fechas al crear ────────────────────────────────────────────────────────
+document.getElementById('addFechaInicio').value=today();
+document.getElementById('addInmediata').addEventListener('change',e=>{
+  document.getElementById('labelInicio').style.display=e.target.checked?'none':'';
+});
+
+// ── Adjunto al crear ───────────────────────────────────────────────────────
+document.getElementById('addAttachBtn').addEventListener('click',()=>{
+  document.getElementById('addFileInput').click();
+});
+document.getElementById('addFileInput').addEventListener('change',async e=>{
+  const file=e.target.files[0];if(!file)return;
+  const btn=document.getElementById('addAttachBtn');
+  const nameEl=document.getElementById('addAttachName');
+  await uploadFile(file,(adj)=>{
+    pendingAttach=adj;
+    nameEl.textContent=adj.name;
+    btn.textContent='📎 Cambiar';
+  },null,btn,nameEl);
+  e.target.value='';
+});
+
+// ── Agregar tarea ──────────────────────────────────────────────────────────
 document.getElementById('addBtn').addEventListener('click',()=>{
   const txt=document.getElementById('addInput').value.trim();
-  if(!txt)return;
-  const inmediata=addInmediata.checked;
-  const fechaInicio=inmediata?today():(addFechaInicio.value||today());
-  const fechaLimite=addFechaLimite.value||'';
-  if(!inmediata&&!fechaLimite){
-    alert('Agregá una fecha límite o marcá como Inmediata.');return;
-  }
+  if(!txt){alert('Escribí el nombre de la tarea.');return;}
+  const inmediata=document.getElementById('addInmediata').checked;
+  const fechaLimite=document.getElementById('addFechaLimite').value||'';
+  if(!inmediata&&!fechaLimite){alert('Marcá como Inmediata o agregá una fecha límite.');return;}
+  const fechaInicio=inmediata?today():(document.getElementById('addFechaInicio').value||today());
   const cat=document.getElementById('addCatSel').value;
   const assign=document.getElementById('addAssignSel').value;
-  const newTask={id:uid(),text:txt,cat,assign,done:false,notes:'',inmediata,fechaInicio,fechaLimite,adjunto:window._newAdjunto||null};
-  tasks.push(newTask);
+  tasks.push({id:uid(),text:txt,cat,assign,done:false,notes:'',inmediata,fechaInicio,fechaLimite,adjunto:pendingAttach||null});
+  // Reset
   document.getElementById('addInput').value='';
-  addFechaLimite.value='';
-  addInmediata.checked=false;
-  labelFechaInicio.style.display='';
-  addFechaInicio.value=today();
-  window._newAdjunto=null;
-  document.getElementById('newAttachName').textContent='';
-  document.getElementById('newAttachBtn').textContent='📎 Adjuntar archivo';
-  saveData('nueva tarea: '+txt);
-  sendWhatsAppAlert(`📋 *BABEL — Nueva tarea*\n\n• ${txt}\n\nAsignado: ${assign||'Sin asignar'}\nCategoría: ${cat}`);
-  renderAll();
+  document.getElementById('addFechaLimite').value='';
+  document.getElementById('addInmediata').checked=false;
+  document.getElementById('labelInicio').style.display='';
+  document.getElementById('addFechaInicio').value=today();
+  document.getElementById('addAttachName').textContent='';
+  document.getElementById('addAttachBtn').textContent='📎 Adjuntar';
+  pendingAttach=null;
+  saveData('nueva tarea: '+txt);renderAll();
 });
-document.getElementById('addInput').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('addBtn').click();});
+document.getElementById('addInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter')document.getElementById('addBtn').click();
+});
+
+// ── Filtros ejecutadas ─────────────────────────────────────────────────────
+['doneFilterCat','doneFilterAssign','doneSortBy'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',renderDone);
+});
 
 // ── Modal editar ───────────────────────────────────────────────────────────
 function openEditModal(task){
@@ -659,22 +691,62 @@ function openEditModal(task){
   document.getElementById('editFechaInicio').value=task.fechaInicio||today();
   document.getElementById('editFechaLimite').value=task.fechaLimite||'';
   document.getElementById('editNotes').value=task.notes||'';
-  toggleEditDates();
-  // Mostrar adjunto actual
-  const attachName = document.getElementById('editAttachName');
-  attachName.textContent = task.adjunto ? task.adjunto.name : 'Sin adjunto';
+  document.getElementById('editInicioWrap').style.display=task.inmediata?'none':'';
+  const attachName=document.getElementById('editAttachName');
+  const delAdj=document.getElementById('editDelAdjunto');
+  attachName.textContent=task.adjunto?task.adjunto.name:'Sin adjunto';
+  delAdj.style.display=task.adjunto?'':'none';
   document.getElementById('editModal').classList.add('open');
-  setTimeout(()=>document.getElementById('editText').focus(),100);
 }
-function toggleEditDates(){
-  const inmediata=document.getElementById('editInmediata').checked;
-  document.getElementById('editFechaInicioWrap').style.display=inmediata?'none':'';
-}
-document.getElementById('editInmediata').addEventListener('change',toggleEditDates);
-document.getElementById('cancelEditBtn').addEventListener('click',()=>document.getElementById('editModal').classList.remove('open'));
-document.getElementById('editModal').addEventListener('click',e=>{if(e.target===document.getElementById('editModal'))document.getElementById('editModal').classList.remove('open');});
+
+document.getElementById('editInmediata').addEventListener('change',e=>{
+  document.getElementById('editInicioWrap').style.display=e.target.checked?'none':'';
+});
+
+document.getElementById('cancelEditBtn').addEventListener('click',()=>{
+  document.getElementById('editModal').classList.remove('open');
+});
+document.getElementById('editModal').addEventListener('click',e=>{
+  if(e.target===document.getElementById('editModal'))document.getElementById('editModal').classList.remove('open');
+});
+
+document.getElementById('deleteTaskBtn').addEventListener('click',()=>{
+  const task=tasks.find(t=>t.id===editingId);if(!task)return;
+  if(!confirm(`¿Eliminar "${task.text}"?`))return;
+  tasks=tasks.filter(t=>t.id!==editingId);
+  saveData('eliminada: '+task.text);
+  document.getElementById('editModal').classList.remove('open');
+  renderAll();
+});
+
+document.getElementById('editDelAdjunto').addEventListener('click',()=>{
+  const task=tasks.find(t=>t.id===editingId);if(!task)return;
+  task.adjunto=null;
+  document.getElementById('editAttachName').textContent='Sin adjunto';
+  document.getElementById('editDelAdjunto').style.display='none';
+  saveData('adjunto eliminado: '+task.text);renderAll();
+});
+
+document.getElementById('editAttachBtn').addEventListener('click',()=>{
+  document.getElementById('editFileInput').click();
+});
+document.getElementById('editFileInput').addEventListener('change',async e=>{
+  const file=e.target.files[0];if(!file)return;
+  const task=tasks.find(t=>t.id===editingId);if(!task)return;
+  const btn=document.getElementById('editAttachBtn');
+  const nameEl=document.getElementById('editAttachName');
+  await uploadFile(file,(adj)=>{
+    task.adjunto=adj;
+    nameEl.textContent=adj.name;
+    document.getElementById('editDelAdjunto').style.display='';
+    btn.textContent='📎 Cambiar archivo';
+    saveData('adjunto: '+task.text);renderAll();
+  },null,btn,nameEl);
+  e.target.value='';
+});
+
 document.getElementById('saveEditBtn').addEventListener('click',()=>{
-  const task=tasks.find(t=>t.id===editingId); if(!task)return;
+  const task=tasks.find(t=>t.id===editingId);if(!task)return;
   const inmediata=document.getElementById('editInmediata').checked;
   const fechaLimite=document.getElementById('editFechaLimite').value;
   if(!inmediata&&!fechaLimite){alert('Agregá una fecha límite o marcá como Inmediata.');return;}
@@ -685,7 +757,6 @@ document.getElementById('saveEditBtn').addEventListener('click',()=>{
   task.fechaInicio=inmediata?today():(document.getElementById('editFechaInicio').value||today());
   task.fechaLimite=fechaLimite;
   task.notes=document.getElementById('editNotes').value.trim();
-  sendWhatsAppAlert(`✏️ *BABEL — Tarea editada*\n\n• ${task.text}\n\nRevisá: babel-tareas-socios.netlify.app`);
   saveData('editada: '+task.text);
   document.getElementById('editModal').classList.remove('open');
   renderAll();
@@ -709,47 +780,36 @@ function addDragEvents(li,task){
 
 // ── Touch drag & drop móvil (long press) ──────────────────────────────────
 function addTouchEvents(li,task){
-  let clone=null,startX=0,startY=0,longPressTimer=null,dragging=false;
-
+  let clone=null,startX=0,startY=0,timer=null,dragging=false;
   li.addEventListener('touchstart',e=>{
     if(e.target.classList.contains('cb')||e.target.closest('.icon-btn')||e.target.closest('.task-notes'))return;
-    startX=e.touches[0].clientX; startY=e.touches[0].clientY;
-    longPressTimer=setTimeout(()=>{
-      // Activar modo arrastre
+    startX=e.touches[0].clientX;startY=e.touches[0].clientY;
+    timer=setTimeout(()=>{
       dragging=true;
-      if(navigator.vibrate) navigator.vibrate(40);
+      if(navigator.vibrate)navigator.vibrate(40);
       const rect=li.getBoundingClientRect();
       clone=li.cloneNode(true);
-      clone.style.cssText=`position:fixed;opacity:.8;pointer-events:none;z-index:999;width:${rect.width}px;left:${rect.left}px;top:${rect.top}px;margin:0;box-shadow:0 8px 24px rgba(0,0,0,.18);border-radius:10px;transform:scale(1.02);transition:transform .15s;`;
-      document.body.appendChild(clone);
-      li.style.opacity='.3';
+      clone.style.cssText=`position:fixed;opacity:.8;pointer-events:none;z-index:999;width:${rect.width}px;left:${rect.left}px;top:${rect.top}px;margin:0;box-shadow:0 8px 24px rgba(0,0,0,.18);border-radius:10px;`;
+      document.body.appendChild(clone);li.style.opacity='.3';
     },500);
   },{passive:true});
-
   li.addEventListener('touchmove',e=>{
-    // Si se mueve antes del long press, cancelar
     if(!dragging){
-      const dx=Math.abs(e.touches[0].clientX-startX);
-      const dy=Math.abs(e.touches[0].clientY-startY);
-      if(dx>8||dy>8){clearTimeout(longPressTimer);longPressTimer=null;}
+      if(Math.abs(e.touches[0].clientX-startX)>8||Math.abs(e.touches[0].clientY-startY)>8){clearTimeout(timer);timer=null;}
       return;
     }
     e.preventDefault();
     const dy=e.touches[0].clientY-startY;
-    const rect=li.getBoundingClientRect();
-    clone.style.top=(rect.top+dy)+'px';
+    clone.style.top=(li.getBoundingClientRect().top+dy)+'px';
     document.querySelectorAll('.task-item').forEach(x=>x.classList.remove('drag-over'));
     const els=document.elementsFromPoint(e.touches[0].clientX,e.touches[0].clientY);
     const target=els.find(el=>el.classList&&el.classList.contains('task-item')&&el!==li);
     if(target)target.classList.add('drag-over');
   },{passive:false});
-
   li.addEventListener('touchend',e=>{
-    clearTimeout(longPressTimer); longPressTimer=null;
-    if(!dragging){return;}
-    dragging=false;
-    if(clone){clone.remove();clone=null;}
-    li.style.opacity='';
+    clearTimeout(timer);timer=null;
+    if(!dragging)return;
+    dragging=false;clone.remove();clone=null;li.style.opacity='';
     document.querySelectorAll('.task-item').forEach(x=>x.classList.remove('drag-over'));
     const els=document.elementsFromPoint(e.changedTouches[0].clientX,e.changedTouches[0].clientY);
     const target=els.find(el=>el.classList&&el.classList.contains('task-item')&&el!==li);
@@ -758,13 +818,7 @@ function addTouchEvents(li,task){
       if(fi>=0&&ti>=0){tasks.splice(ti,0,tasks.splice(fi,1)[0]);saveData('reordenamiento');renderAll();}
     }
   });
-
-  li.addEventListener('touchcancel',()=>{
-    clearTimeout(longPressTimer); longPressTimer=null; dragging=false;
-    if(clone){clone.remove();clone=null;}
-    li.style.opacity='';
-    document.querySelectorAll('.task-item').forEach(x=>x.classList.remove('drag-over'));
-  });
+  li.addEventListener('touchcancel',()=>{clearTimeout(timer);timer=null;dragging=false;if(clone){clone.remove();clone=null;}li.style.opacity='';});
 }
 
 // ── Modal categorías ───────────────────────────────────────────────────────
@@ -799,161 +853,6 @@ document.getElementById('saveCatsBtn').addEventListener('click',()=>{
   });
   if(!nc.length)return;cats=nc;saveData('categorías');closeCatModal();renderAll();
 });
-
-// ── Adjunto al crear tarea ────────────────────────────────────────────────
-document.getElementById('newAttachBtn').addEventListener('click',()=>{
-  document.getElementById('newFileInput').click();
-});
-document.getElementById('newFileInput').addEventListener('change', async e=>{
-  const file=e.target.files[0]; if(!file)return;
-  const btn=document.getElementById('newAttachBtn');
-  const nameEl=document.getElementById('newAttachName');
-  btn.textContent='⏳ Subiendo...'; btn.disabled=true;
-  try{
-    const fd=new FormData();
-    fd.append('file',file); fd.append('upload_preset','babel_uploads'); fd.append('folder','babel-tareas');
-    const res=await fetch('https://api.cloudinary.com/v1_1/dmg4sk7k/auto/upload',{method:'POST',body:fd});
-    const data=await res.json();
-    if(data.secure_url){
-      window._newAdjunto={url:data.secure_url,name:file.name};
-      nameEl.textContent=file.name;
-      btn.textContent='📎 Cambiar';
-    } else { nameEl.textContent='Error al subir'; btn.textContent='📎 Adjuntar archivo'; }
-  }catch(err){ nameEl.textContent='Error'; btn.textContent='📎 Adjuntar archivo'; }
-  btn.disabled=false; e.target.value='';
-});
-
-// ── Adjunto en modal edición ──────────────────────────────────────────────
-document.getElementById('editAttachBtn').addEventListener('click', ()=>{
-  document.getElementById('editFileInput').click();
-});
-document.getElementById('editFileInput').addEventListener('change', async e=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  const btn = document.getElementById('editAttachBtn');
-  const nameEl = document.getElementById('editAttachName');
-  btn.textContent = '⏳ Subiendo...';
-  btn.disabled = true;
-  try {
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', 'babel_uploads');
-    fd.append('folder', 'babel-tareas');
-    const res = await fetch('https://api.cloudinary.com/v1_1/dmg4sk7k/auto/upload', {method:'POST', body:fd});
-    const data = await res.json();
-    if(data.secure_url){
-      const task = tasks.find(t=>t.id===editingId);
-      if(task) task.adjunto = {url: data.secure_url, name: file.name};
-      nameEl.textContent = file.name;
-      btn.textContent = '📎 Cambiar archivo';
-    } else {
-      nameEl.textContent = 'Error al subir';
-    }
-  } catch(err) {
-    nameEl.textContent = 'Error de conexión';
-  }
-  btn.disabled = false;
-  if(!btn.textContent.includes('Cambiar')) btn.textContent = '📎 Elegir archivo';
-  e.target.value='';
-});
-
-// ── Cloudinary Upload ──────────────────────────────────────────────────────
-const CLOUD_NAME = 'dmg4sk7k';
-const UPLOAD_PRESET = 'babel_uploads';
-let uploadingTask = null;
-
-function openUploadModal(task){
-  uploadingTask = task;
-  document.getElementById('uploadOverlay').classList.add('open');
-  document.getElementById('uploadProgress').style.display='none';
-  document.getElementById('uploadProgress').textContent='Subiendo...';
-}
-function closeUploadModal(){
-  document.getElementById('uploadOverlay').classList.remove('open');
-  uploadingTask = null;
-}
-
-document.getElementById('cancelUploadBtn').addEventListener('click', closeUploadModal);
-document.getElementById('uploadOverlay').addEventListener('click', e=>{
-  if(e.target===document.getElementById('uploadOverlay')) closeUploadModal();
-});
-
-document.getElementById('uploadZone').addEventListener('click', ()=>{
-  document.getElementById('fileInput').click();
-});
-
-document.getElementById('fileInput').addEventListener('change', async e=>{
-  const file = e.target.files[0];
-  if(!file || !uploadingTask) return;
-  const prog = document.getElementById('uploadProgress');
-  prog.style.display='block';
-  prog.textContent='Subiendo...';
-  try {
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    fd.append('folder', 'babel-tareas');
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {method:'POST', body:fd});
-    const data = await res.json();
-    if(data.secure_url){
-      uploadingTask.adjunto = {url: data.secure_url, name: file.name};
-      saveData('adjunto: ' + uploadingTask.text);
-      renderAll();
-      closeUploadModal();
-    } else {
-      prog.textContent = 'Error al subir. Intentá de nuevo.';
-    }
-  } catch(err) {
-    prog.textContent = 'Error de conexión.';
-    console.error(err);
-  }
-  e.target.value='';
-});
-
-
-// ── Alertas WhatsApp via Wappfly ───────────────────────────────────────────
-const WAPPFLY_TOKEN = '0f0bca4166a29509d6fc1b10b072c1079a25c8dbcae47a85a69f014c3c731b17';
-const WAPPFLY_NUMBERS = ['56992191818']; // Agregar Vito después: '5491149937493'
-
-async function sendWhatsAppAlert(message){
-  for(const number of WAPPFLY_NUMBERS){
-    try{
-      await fetch('https://wappfly.com/api/send', {
-        method:'POST',
-        headers:{'Content-Type':'application/json','X-API-TOKEN':WAPPFLY_TOKEN},
-        body:JSON.stringify({phone:number, message})
-      });
-    }catch(e){console.error('WhatsApp alert error:',e);}
-  }
-}
-
-// Revisar tareas vencidas cada hora
-function checkOverdueTasks(){
-  const today=new Date().toISOString().slice(0,10);
-  const overdue=tasks.filter(t=>!t.done&&t.fechaLimite&&t.fechaLimite<today);
-  if(overdue.length>0){
-    const lista=overdue.map(t=>`• ${t.text}`).join('\n');
-    sendWhatsAppAlert(`⚠️ *BABEL — Tareas Vencidas*\n\n${lista}\n\nRevisá: babel-tareas-socios.netlify.app`);
-  }
-}
-setInterval(checkOverdueTasks, 3600000); // cada hora
-
 </script>
-
-<div class="upload-overlay" id="uploadOverlay">
-  <div class="upload-box">
-    <h3>📎 Adjuntar archivo</h3>
-    <div class="upload-zone" id="uploadZone">
-      <div style="font-size:32px">📁</div>
-      <p>Tocá para elegir una foto o archivo</p>
-      <input type="file" id="fileInput" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="display:none" capture="environment">
-    </div>
-    <div class="upload-progress" id="uploadProgress">Subiendo...</div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
-      <button class="btn-modal" id="cancelUploadBtn">Cancelar</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
