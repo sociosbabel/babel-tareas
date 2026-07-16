@@ -413,7 +413,6 @@ async function uploadFile(file, onSuccess, onError, btnEl, nameEl){
     fd.append('file',file);
     fd.append('upload_preset',UPLOAD_PRESET);
     fd.append('folder','babel-tareas');
-    fd.append('transformation', 'q_80,w_1200,c_limit');
     const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{method:'POST',body:fd});
     const data=await res.json();
     if(data.secure_url){
