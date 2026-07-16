@@ -728,7 +728,15 @@ document.getElementById('addBtn').addEventListener('click',()=>{
   document.getElementById('addAttachBtn').textContent='📎 Adjuntar';
   pendingAttach=null;
   saveData('nueva tarea: '+txt);
-  sendWhatsAppAlert(`📋 *BABEL — Nueva tarea*\n\n• ${txt}\n\nAsignado: ${assign?{g:'Gonzalo',v:'Vito',both:'Ambos'}[assign]:'Sin asignar'}\nCategoría: ${cats.find(c=>c.id===cat)?.label||cat}\n\n🔗 babel-tareas-socios.netlify.app`);
+  const _nc = cats.find(c=>c.id===cat);
+  const _nt = tasks[tasks.length-1];
+  let _nmsg = `📋 *BABEL — Nueva tarea*\n\n• ${txt}\n\nAsignado: ${assign?{g:'Gonzalo',v:'Vito',both:'Ambos'}[assign]:'Sin asignar'}\nCategoría: ${_nc?.label||cat}`;
+  if(inmediata) _nmsg += `\nFecha: ⚡ Inmediata`;
+  else { if(fechaInicio) _nmsg += `\nInicio: ${fmtDate(fechaInicio)}`; }
+  if(fechaLimite) _nmsg += `\nLímite: ${fmtDate(fechaLimite)}`;
+  if(pendingAttach) _nmsg += `\nAdjunto: ${pendingAttach.url}`;
+  _nmsg += `\n\n🔗 babel-tareas-socios.netlify.app`;
+  sendWhatsAppAlert(_nmsg);
   renderAll();
 });
 document.getElementById('addInput').addEventListener('keydown',e=>{
@@ -817,7 +825,13 @@ document.getElementById('saveEditBtn').addEventListener('click',()=>{
   task.fechaLimite=fechaLimite;
   task.notes=document.getElementById('editNotes').value.trim();
   saveData('editada: '+task.text);
-  sendWhatsAppAlert(`✏️ *BABEL — Tarea editada*\n\n• ${task.text}\n\nAsignado: ${task.assign?{g:'Gonzalo',v:'Vito',both:'Ambos'}[task.assign]:'Sin asignar'}\n\n🔗 babel-tareas-socios.netlify.app`);
+  let _emsg = `✏️ *BABEL — Tarea editada*\n\n• ${task.text}\n\nAsignado: ${task.assign?{g:'Gonzalo',v:'Vito',both:'Ambos'}[task.assign]:'Sin asignar'}\nCategoría: ${catById(task.cat).label}`;
+  if(task.inmediata) _emsg += `\nFecha: ⚡ Inmediata`;
+  else { if(task.fechaInicio) _emsg += `\nInicio: ${fmtDate(task.fechaInicio)}`; }
+  if(task.fechaLimite) _emsg += `\nLímite: ${fmtDate(task.fechaLimite)}`;
+  if(task.adjunto) _emsg += `\nAdjunto: ${task.adjunto.url}`;
+  _emsg += `\n\n🔗 babel-tareas-socios.netlify.app`;
+  sendWhatsAppAlert(_emsg);
   document.getElementById('editModal').classList.remove('open');
   renderAll();
 });
@@ -945,18 +959,74 @@ async function sendWhatsAppAlert(message){
   }
 }
 
-// Revisar tareas vencidas — solo una vez por día
+// Resumen diario a las 10:00 AM Argentina (UTC-3)
+function getArgentinaHour(){
+  const now = new Date();
+  const argentina = new Date(now.toLocaleString('en-US', {timeZone:'America/Argentina/Buenos_Aires'}));
+  return argentina.getHours();
+}
+
+function assignLabel(a){
+  if(!a||a==='') return '❓ Sin asignar';
+  if(a==='g') return '👤 Gonzalo';
+  if(a==='v') return '👤 Vito';
+  return '👥 Ambos';
+}
+
 function checkOverdueTasks(){
   const t = today();
   const lastCheck = localStorage.getItem('babel_overdue_check');
-  if(lastCheck === t) return; // Ya se revisó hoy
+  if(lastCheck === t) return;
+  const hour = getArgentinaHour();
+  if(hour < 10) return; // Esperar hasta las 10 AM Argentina
   localStorage.setItem('babel_overdue_check', t);
+
   const overdue = tasks.filter(x=>!x.done && x.fechaLimite && x.fechaLimite < t);
-  if(overdue.length > 0){
-    const lista = overdue.map(x=>`• ${x.text}`).join('\n');
-    sendWhatsAppAlert(`⚠️ *BABEL — Tareas Vencidas*\n\n${lista}\n\n🔗 babel-tareas-socios.netlify.app`);
+  const upcoming = tasks.filter(x=>{
+    if(x.done||!x.fechaLimite) return false;
+    const diff = (new Date(x.fechaLimite)-new Date(t))/86400000;
+    return diff >= 0 && diff <= 7;
+  }).sort((a,b)=>a.fechaLimite.localeCompare(b.fechaLimite));
+  const noDate = tasks.filter(x=>!x.done && !x.fechaLimite);
+
+  if(!overdue.length && !upcoming.length && !noDate.length) return;
+
+  let msg = `⚠️ *BABEL — Resumen Diario de Tareas*`;
+
+  if(overdue.length){
+    msg += `\n\n🔴 *VENCIDAS*\n`;
+    // Orden: Ambos, Vito, Gonzalo, Sin asignar
+    const order = ['both','v','g',''];
+    order.forEach(a=>{
+      overdue.filter(x=>(x.assign||'')===a).forEach(x=>{
+        msg += `\n${assignLabel(x.assign)} — ${x.text} (vencida ${fmtDate(x.fechaLimite)})`;
+      });
+    });
   }
+
+  if(upcoming.length){
+    msg += `\n\n🟡 *PRÓXIMAS A VENCER*\n`;
+    upcoming.forEach(x=>{
+      msg += `\n${assignLabel(x.assign)} — ${x.text} (límite ${fmtDate(x.fechaLimite)})`;
+    });
+  }
+
+  if(noDate.length){
+    msg += `\n\n🔵 *SIN FECHA LÍMITE*\n`;
+    const order = ['both','v','g',''];
+    order.forEach(a=>{
+      noDate.filter(x=>(x.assign||'')===a).forEach(x=>{
+        msg += `\n${assignLabel(x.assign)} — ${x.text}`;
+      });
+    });
+  }
+
+  msg += `\n\n🔗 babel-tareas-socios.netlify.app`;
+  sendWhatsAppAlert(msg);
 }
+
+// Revisar cada 30 minutos
+setInterval(checkOverdueTasks, 1800000);
 
 
 // ── Buscador ejecutadas ────────────────────────────────────────────────────
