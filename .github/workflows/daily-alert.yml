@@ -1,0 +1,146 @@
+name: Daily WhatsApp Alert
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # 10:00 AM Argentina (UTC-3)
+  workflow_dispatch:  # Permite ejecutar manualmente para probar
+
+jobs:
+  send-alert:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send daily task summary to WhatsApp
+        run: |
+          node << 'JSEOF'
+          const https = require('https');
+
+          const FIREBASE_PROJECT = 'babel-tareas';
+          const FIREBASE_API_KEY = 'AIzaSyAZ25T-qhy-B_8M9QTCUh1dR18fiaPq0WQ';
+          const GAPI_INSTANCE = '710701674285';
+          const GAPI_TOKEN = '773d18f2bfe6493598a32cfeb453053d74c3af9f1ed24e53bd';
+          const GROUP_ID = '120363404247465911@g.us';
+
+          function today() {
+            return new Date().toISOString().slice(0, 10);
+          }
+
+          function fmtDate(d) {
+            if (!d) return '';
+            const [y, m, day] = d.split('-');
+            return `${day}/${m}/${y.slice(2)}`;
+          }
+
+          function assignLabel(a) {
+            if (!a || a === '') return '❓ Sin asignar';
+            if (a === 'g') return '👤 Gonzalo';
+            if (a === 'v') return '👤 Vito';
+            return '👥 Ambos';
+          }
+
+          function request(options, body) {
+            return new Promise((resolve, reject) => {
+              const req = https.request(options, res => {
+                let data = '';
+                res.on('data', chunk => data += chunk);
+                res.on('end', () => resolve(JSON.parse(data)));
+              });
+              req.on('error', reject);
+              if (body) req.write(JSON.stringify(body));
+              req.end();
+            });
+          }
+
+          async function main() {
+            // 1. Obtener token de Firebase anónimo
+            const authData = await request({
+              hostname: 'identitytoolkit.googleapis.com',
+              path: `/v1/accounts:signUp?key=${FIREBASE_API_KEY}`,
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' }
+            }, { returnSecureToken: true });
+
+            const token = authData.idToken;
+
+            // 2. Leer tareas de Firestore
+            const firestoreData = await request({
+              hostname: 'firestore.googleapis.com',
+              path: `/v1/projects/${FIREBASE_PROJECT}/databases/(default)/documents/babel/tareas`,
+              method: 'GET',
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            const fields = firestoreData.fields;
+            if (!fields || !fields.tasks) {
+              console.log('No hay tareas');
+              return;
+            }
+
+            const tasks = fields.tasks.arrayValue.values.map(v => {
+              const f = v.mapValue.fields;
+              return {
+                text: f.text?.stringValue || '',
+                done: f.done?.booleanValue || false,
+                assign: f.assign?.stringValue || '',
+                fechaLimite: f.fechaLimite?.stringValue || '',
+                fechaInicio: f.fechaInicio?.stringValue || '',
+                inmediata: f.inmediata?.booleanValue || false,
+              };
+            });
+
+            const t = today();
+            const overdue = tasks.filter(x => !x.done && x.fechaLimite && x.fechaLimite < t);
+            const upcoming = tasks.filter(x => {
+              if (x.done || !x.fechaLimite) return false;
+              const diff = (new Date(x.fechaLimite) - new Date(t)) / 86400000;
+              return diff >= 0 && diff <= 7;
+            }).sort((a, b) => a.fechaLimite.localeCompare(b.fechaLimite));
+            const noDate = tasks.filter(x => !x.done && !x.fechaLimite);
+
+            if (!overdue.length && !upcoming.length && !noDate.length) {
+              console.log('No hay tareas pendientes');
+              return;
+            }
+
+            let msg = `⚠️ *BABEL — Resumen Diario de Tareas*`;
+            const order = ['both', 'v', 'g', ''];
+
+            if (overdue.length) {
+              msg += `\n\n🔴 *VENCIDAS*\n`;
+              order.forEach(a => {
+                overdue.filter(x => (x.assign || '') === a).forEach(x => {
+                  msg += `\n${assignLabel(x.assign)} — ${x.text} (vencida ${fmtDate(x.fechaLimite)})`;
+                });
+              });
+            }
+
+            if (upcoming.length) {
+              msg += `\n\n🟡 *PRÓXIMAS A VENCER*\n`;
+              upcoming.forEach(x => {
+                msg += `\n${assignLabel(x.assign)} — ${x.text} (límite ${fmtDate(x.fechaLimite)})`;
+              });
+            }
+
+            if (noDate.length) {
+              msg += `\n\n🔵 *SIN FECHA LÍMITE*\n`;
+              order.forEach(a => {
+                noDate.filter(x => (x.assign || '') === a).forEach(x => {
+                  msg += `\n${assignLabel(x.assign)} — ${x.text}`;
+                });
+              });
+            }
+
+            msg += `\n\n🔗 babel-tareas-socios.netlify.app`;
+
+            // 3. Enviar a WhatsApp
+            const result = await request({
+              hostname: '7107.api.greenapi.com',
+              path: `/waInstance${GAPI_INSTANCE}/sendMessage/${GAPI_TOKEN}`,
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' }
+            }, { chatId: GROUP_ID, message: msg });
+
+            console.log('Enviado:', result);
+          }
+
+          main().catch(console.error);
+          JSEOF
