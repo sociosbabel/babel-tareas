@@ -945,9 +945,12 @@ async function sendWhatsAppAlert(message){
   }
 }
 
-// Revisar tareas vencidas una vez al abrir la app
+// Revisar tareas vencidas — solo una vez por día
 function checkOverdueTasks(){
   const t = today();
+  const lastCheck = localStorage.getItem('babel_overdue_check');
+  if(lastCheck === t) return; // Ya se revisó hoy
+  localStorage.setItem('babel_overdue_check', t);
   const overdue = tasks.filter(x=>!x.done && x.fechaLimite && x.fechaLimite < t);
   if(overdue.length > 0){
     const lista = overdue.map(x=>`• ${x.text}`).join('\n');
