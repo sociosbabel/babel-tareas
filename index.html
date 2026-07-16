@@ -406,11 +406,37 @@ function filteredTasks(){
 }
 
 // ── Cloudinary Upload ──────────────────────────────────────────────────────
+async function compressImage(file){
+  // Solo comprimir imágenes
+  if(!file.type.startsWith('image/')) return file;
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        let w=img.width, h=img.height;
+        const MAX=1200;
+        if(w>MAX||h>MAX){
+          if(w>h){h=Math.round(h*MAX/w);w=MAX;}
+          else{w=Math.round(w*MAX/h);h=MAX;}
+        }
+        canvas.width=w; canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        canvas.toBlob(blob=>resolve(new File([blob],file.name,{type:'image/jpeg'})),'image/jpeg',0.82);
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
 async function uploadFile(file, onSuccess, onError, btnEl, nameEl){
   if(btnEl)btnEl.textContent='⏳ Subiendo...';
   try{
+    const compressed = await compressImage(file);
     const fd=new FormData();
-    fd.append('file',file);
+    fd.append('file', compressed);
     fd.append('upload_preset',UPLOAD_PRESET);
     fd.append('folder','babel-tareas');
     const res=await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{method:'POST',body:fd});
@@ -420,6 +446,7 @@ async function uploadFile(file, onSuccess, onError, btnEl, nameEl){
     } else {
       if(onError)onError();
       if(nameEl)nameEl.textContent='Error al subir';
+      console.error('Cloudinary error:',data);
     }
   }catch(e){
     if(onError)onError();
@@ -904,7 +931,7 @@ document.getElementById('lightboxClose').addEventListener('click',()=>{
 const GAPI_INSTANCE = '710701674285';
 const GAPI_TOKEN = '773d18f2bfe6493598a32cfeb453053d74c3af9f1ed24e53bd';
 const GAPI_URL = `https://7107.api.greenapi.com/waInstance${GAPI_INSTANCE}/sendMessage/${GAPI_TOKEN}`;
-const ALERT_NUMBERS = ['120363404246911@g.us']; // Babel - SOCIOS
+const ALERT_NUMBERS = ['120363404024246911@g.us']; // Babel - SOCIOS
 
 async function sendWhatsAppAlert(message){
   for(const number of ALERT_NUMBERS){
