@@ -2,7 +2,7 @@ name: Daily WhatsApp Alert
 
 on:
   schedule:
-    - cron: '0 13 * * *'  # 10:00 AM Argentina (UTC-3)
+    - cron: '0 13 * * 1'  # Lunes 10:00 AM Argentina (UTC-3)
   workflow_dispatch:  # Permite ejecutar manualmente para probar
 
 jobs:
@@ -129,7 +129,7 @@ jobs:
               });
             }
 
-            msg += `\n\n🔗 babel-tareas-socios.netlify.app`;
+            
 
             // 3. Enviar a WhatsApp
             const result = await request({
