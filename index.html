@@ -1021,12 +1021,12 @@ function checkOverdueTasks(){
     });
   }
 
-  msg += `\n\n🔗 babel-tareas-socios.netlify.app`;
+  
   sendWhatsAppAlert(msg);
 }
 
 // Revisar cada 30 minutos
-setInterval(checkOverdueTasks, 1800000);
+// DESACTIVADO 05/08/2026: duplicaba el resumen. localStorage es por dispositivo, asi que cada navegador con la app abierta mandaba el suyo. El resumen sale solo los lunes 10:00 desde GitHub Actions.
 
 
 // ── Buscador ejecutadas ────────────────────────────────────────────────────
